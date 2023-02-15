@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <style>
+        #as {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: brown;
+        }
+    </style>
+</head>
+<script src="../js文件.js/jquery.js"></script>
+
+<body style="padding:20px ;">
+    <!-- 添加部 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加图书</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">书名</span>
+                <input type="text" class="form-control" placeholder="请输入书名" id="a">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">作者</span>
+                <input type="text" class="form-control" placeholder="请输入作者" id="b">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">出版社</span>
+                <input type="text" class="form-control" placeholder="请输入出版社" id="c">
+            </div>
+            <button type="button" class="btn btn-primary" id="btn">添加</button>
+        </div>
+    </div>
+    <!-- 表格部 -->
+    <table class="table table-bordered">
+        <caption>边框表格布局</caption>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>出版社</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="s">
+
+        </tbody>
+        <script>
+            //做这个需要接口文档
+            $(function () {
+                function Bookopc() {
+                    $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+                        if (res.status !== 200) return alert('添加有误');
+                        console.log(res);
+                        var str = [];
+                        $.each(res.data, function (i, item) {
+                            str.push('<tr><td>' + item.id + '</td><td>' + item.bookname + '</td><td >' + item.author + '</td ><td>' + item.publisher + '</td><td>' + '<a href="javascript:;" id="as" date-id=' + item.id + '>删除</a>' + '</td></tr > ')
+                        })
+                        console.log(str);
+                        $('#s').empty().append(str)
+                    })
+                }
+                Bookopc();
+
+
+                //删除
+                //给a标签绑定事件要使用 事件委托  因为他是动态表格
+                $('#s').on('click', '#as', function () {
+                    var id = $(this).attr('date-id');
+                    $.get('http://www.liulongbin.top:3006/api/delbook', { id: id }, function (res) {
+                        console.log(res);
+                    })
+                    Bookopc()
+                })
+
+                $('#btn').click(function () {
+                    var bookname = $('#a').val().trim();
+                    var authorname = $('#b').val().trim();
+                    var pu = $('#c').val().trim();
+                    if (bookname.length <= 0 || authorname.length <= 0 || pu.length <= 0) {
+                        alert('请输入正确的内容')
+                    }
+                    else {
+                        $.post('http://www.liulongbin.top:3006/api/addbook', { bookname: bookname, author: authorname, publisher: pu }, function (res) {
+                            if (res.status !== 201) return alert('添加图书失败')
+                            Bookopc();
+                            $('#a').val('');
+                            $('#b').val('');
+                            $('#c').val('');
+                        })
+                    }
+
+                })
+
+            })
+        </script>
+</body>
+
+
+</html>

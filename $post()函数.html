@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js文件.js/jquery.js"></script>
+</head>
+
+<body>
+    <button>
+        post发送请求
+    </button>
+    <script>
+        //$post()向服务器发送数据
+        //$post(url,date,callback)
+        //url是地址 是必须要有的 date是发送给服务器的相关参数   callback是一个回调函数 可以难道服务器响应回来的数据  date和callback可以忽略
+        //http://www.liulongbin.top:3006/api/addbook
+        $(function () {
+            $('button').click(function () {
+                $.post('http://www.liulongbin.top:3006/api/addbook', { id: 15, bookname: '美羊羊', author: '灰太狼', publisher: '青青草原出版社' }
+                    , function (res) {
+                        console.log(res);
+                    })
+            })
+        })
+    </script>
+</body>
+
+</html>

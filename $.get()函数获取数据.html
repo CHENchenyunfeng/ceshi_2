@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js文件.js/jquery.js"></script>
+</head>
+
+<body>
+    <button id="btn1">
+        发起不带参数的请求
+    </button>
+    <button id="btn2">
+        发起带参数的请求
+    </button>
+    <button id="btn3">
+        发起bu带参数的请求
+    </button>
+    <button id="btn4">
+        发起带参数的请求
+    </button>
+    <script>
+        //$get()获取数据
+        //$get(url,date,callback)
+        //url是地址 是必须要有的 date是发送给服务器的相关参数   callback是一个回调函数 可以难道服务器响应回来的数据  date和callback可以忽略
+        $(function () {
+            $('#btn1').click(function () {
+                $.get('http://www.zkt-it.com:5050/student/', function (res) {
+                    console.log(res);   //这里的res是服务器返回的数据
+                })
+            })
+
+            $('#btn3').click(function () {
+                $.get('http://www.liulongbin.top:3006/api/getbooks', function (res) {
+                    console.log(res);   //这里的res是服务器返回的数据
+                })
+            })
+
+
+            $('#btn2').click(function () {
+                $.get('http://www.zkt-it.com:5050/student/', { sex: '男' }, function (res) {
+                    console.log(res);   //这里的res是服务器返回的数据
+                })
+            })
+        })
+
+        $('#btn4').click(function () {
+            $.get('http://www.liulongbin.top:3006/api/getbooks', { author: '罗贯中' }, function (res) {
+                console.log(res);   //这里的res是服务器返回的数据
+            })
+        })
+
+    </script>
+</body>
+
+</html>
